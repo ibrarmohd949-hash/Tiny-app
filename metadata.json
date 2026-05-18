@@ -1,0 +1,12 @@
+{
+  "name": "tiny-tok-tok-app",
+  "description": "A world-class short video reels platform with AI-powered content generation, viral engagement systems, and a premium modern mobile experience.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

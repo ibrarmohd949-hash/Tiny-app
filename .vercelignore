@@ -1,0 +1,12 @@
+node_modules
+dist
+.vercel
+android
+ios
+capacitor.config.ts
+firebase-blueprint.json
+firestore.rules
+security_spec.md
+DOWNLOAD_APK.md
+PLAY_STORE_RELEASE_CHECKLIST.md
+play_store_assets.md

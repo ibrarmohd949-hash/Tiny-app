@@ -1,0 +1,178 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and statistics",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "bio": { "type": "string" },
+        "followersCount": { "type": "integer" },
+        "followingCount": { "type": "integer" },
+        "totalLikes": { "type": "integer" },
+        "isVerified": { "type": "boolean" },
+        "isAdmin": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["displayName", "email", "createdAt"]
+    },
+    "Video": {
+      "title": "Video",
+      "description": "Short video post metadata",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "videoURL": { "type": "string" },
+        "thumbnailURL": { "type": "string" },
+        "caption": { "type": "string" },
+        "title": { "type": "string" },
+        "hashtags": { "type": "array", "items": { "type": "string" } },
+        "likesCount": { "type": "integer" },
+        "commentsCount": { "type": "integer" },
+        "shareCount": { "type": "integer" },
+        "viewCount": { "type": "integer" },
+        "aiGenerated": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "hashtags": { "type": "array", "items": { "type": "string" } },
+            "caption": { "type": "string" }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "videoURL", "createdAt"]
+    },
+    "Like": {
+      "title": "Like",
+      "description": "Video like interaction",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "videoId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "videoId", "createdAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "Video comment interaction",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "videoId": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "videoId", "text", "createdAt"]
+    },
+    "Follow": {
+      "title": "Follow",
+      "description": "User follow relationship",
+      "type": "object",
+      "properties": {
+        "followerId": { "type": "string" },
+        "followingId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["followerId", "followingId", "createdAt"]
+    },
+    "Chat": {
+      "title": "Chat",
+      "description": "One-on-one or group chat session",
+      "type": "object",
+      "properties": {
+        "participants": { "type": "array", "items": { "type": "string" } },
+        "lastMessage": { "type": "string" },
+        "lastParticipant": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Chat message",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "mediaUrl": { "type": "string" },
+        "type": { "type": "string", "enum": ["text", "image", "voice"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "createdAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User activity notification",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "fromUserId": { "type": "string" },
+        "type": { "type": "string", "enum": ["like", "comment", "follow"] },
+        "videoId": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "type", "createdAt"]
+    },
+    "Report": {
+      "title": "Report",
+      "description": "User or content report",
+      "type": "object",
+      "properties": {
+        "reporterId": { "type": "string" },
+        "targetId": { "type": "string" },
+        "targetType": { "type": "string", "enum": ["user", "video", "comment"] },
+        "reason": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "resolved", "dismissed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["reporterId", "targetId", "targetType", "reason", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "videos/{videoId}": {
+      "schema": "Video",
+      "description": "Video posts"
+    },
+    "videos/{videoId}/likes/{userId}": {
+      "schema": "Like",
+      "description": "Likes on a video"
+    },
+    "videos/{videoId}/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Comments on a video"
+    },
+    "users/{userId}/followers/{followerId}": {
+      "schema": "Follow",
+      "description": "Users following this user"
+    },
+    "users/{userId}/following/{followingId}": {
+      "schema": "Follow",
+      "description": "Users this user is following"
+    },
+    "chats/{chatId}": {
+      "schema": "Chat",
+      "description": "Chat sessions"
+    },
+    "chats/{chatId}/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Messages in a chat"
+    },
+    "users/{userId}/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User notifications"
+    },
+    "reports/{reportId}": {
+      "schema": "Report",
+      "description": "Content and user reports"
+    }
+  }
+}
