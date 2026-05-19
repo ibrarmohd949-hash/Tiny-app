@@ -19,16 +19,26 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
+      - name: Build Web App
         run: npm run build
-- name: Upload APK
-  uses: actions/upload-artifact@v4
-  with:
-    name: TinyTok-APK
-    path: android/app/build/outputs/apk/release/*.apk
 
-- name: Upload AAB
-  uses: actions/upload-artifact@v4
-  with:
-    name: TinyTok-AAB
-    path: android/app/build/outputs/bundle/release/*.aab
+      - name: Install Capacitor CLI
+        run: npm install @capacitor/cli @capacitor/android
+
+      - name: Sync Capacitor Android
+        run: npx cap sync android
+
+      - name: Build Android APK
+        run: cd android && ./gradlew assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: TinyTok-APK
+          path: android/app/build/outputs/apk/release/*.apk
+
+      - name: Upload AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: TinyTok-AAB
+          path: android/app/build/outputs/bundle/release/*.aab
