@@ -21,3 +21,14 @@ jobs:
 
       - name: Build project
         run: npm run build
+- name: Upload APK
+  uses: actions/upload-artifact@v4
+  with:
+    name: TinyTok-APK
+    path: android/app/build/outputs/apk/release/*.apk
+
+- name: Upload AAB
+  uses: actions/upload-artifact@v4
+  with:
+    name: TinyTok-AAB
+    path: android/app/build/outputs/bundle/release/*.aab
