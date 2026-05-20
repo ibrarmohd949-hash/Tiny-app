@@ -19,14 +19,23 @@ jobs:
         with:
           node-version: 22
 
+      - name: Setup Java (IMPORTANT FIX)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build Web App
         run: npm run build
 
       - name: Install Capacitor
         run: npm install @capacitor/cli @capacitor/android
+
+      - name: Add Android platform (safe check)
+        run: npx cap add android || true
 
       - name: Sync Android
         run: npx cap sync android
